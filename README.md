@@ -13,3 +13,6 @@
 
         . Prettier
             O Prettier é mais uma ferramenta que vamos utilizar para ajudar na padronização de código, ele consiste em várias configurações que são feitas para que o código seja formatado para seguir um padrão.
+
+
+    -> Instalar         
