@@ -20,20 +20,20 @@ export const Container = styled.div<ContainerProps>`
     props.isErrored &&
     css`
       border-color: #c53030;
-   ` };
+    `};
 
   ${props =>
     props.isFocused &&
     css`
       color: #ff9000;
       border-color: #ff9000;
-  `};
+    `};
 
   ${props =>
     props.isFilled &&
     css`
       color: #ff9000;
-  `  };
+    `};
 
   width: 100%;
   display: flex;
