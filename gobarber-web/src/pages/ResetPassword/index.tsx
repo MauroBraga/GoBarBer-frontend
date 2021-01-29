@@ -1,14 +1,16 @@
 import React, { useCallback, useRef } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import { FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/auth';
+
 import { useToast } from '../../hooks/toast';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { Container, Content, AnimationContainer, Background } from './styles';
+
+import api from '../../services/api';
 
 import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
@@ -21,7 +23,7 @@ interface ResetPasswordFormData {
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { signIn } = useAuth();
+  const location = useLocation();
   const { addToast } = useToast();
   const history = useHistory();
   const handleSubmit = useCallback(
@@ -40,7 +42,15 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
+        const { password, password_confirmation } = data;
 
+        const token = location.search.replace('?token=', '');
+
+        await api.post('/password/reset', {
+          password,
+          password_confirmation,
+          token,
+        });
 
         history.push('/');
       }catch (err){
@@ -56,7 +66,7 @@ const SignIn: React.FC = () => {
           description: 'Ocorreu um erro ao resetar sua senha, tente novamente.',
         });
       }
-  }, [ addToast, history]);
+  }, [ addToast, history, location.search]);
 
   return (
     <Container>
@@ -81,8 +91,8 @@ const SignIn: React.FC = () => {
               placeholder="Confirmação da Senha"
             />
 
-            <Button type="submit">Entrar</Button>
-            <Link to="forgot-password">Alterar senha</Link>
+            <Button type="submit">Alterar Senha</Button>
+
           </Form>
 
 
