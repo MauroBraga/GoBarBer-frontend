@@ -7,30 +7,30 @@ import {
 
 import { useAuth } from '../hooks/auth';
 
-interface RouteProps extends ReactDOMRouteProps{
+interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
   component: React.ComponentType;
 }
 
-const Route: React.FC<RouteProps> = ({ 
-  isPrivate = false, 
-  component: Component, 
-  ...rest 
+const Route: React.FC<RouteProps> = ({
+  isPrivate = false,
+  component: Component,
+  ...rest
 }) => {
   const { user } = useAuth();
 
   return (
-    <ReactDOMRoute 
+    <ReactDOMRoute
       {...rest}
-      render={(location) =>{
+      render={location => {
         return isPrivate === !!user ? (
           <Component />
         ) : (
-          <Redirect to={{ pathname: isPrivate ? '/' : '/dashboard'}} />
+          <Redirect to={{ pathname: isPrivate ? '/' : '/dashboard' }} />
         );
       }}
     />
-  )
+  );
 };
 
 export default Route;
